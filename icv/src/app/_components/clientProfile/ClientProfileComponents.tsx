@@ -75,7 +75,7 @@ export const ClientBio = ({ data }: ClientProps) => {
                     <div>
                         {data.intakeDate ? (
                             new Date(data.intakeDate).toLocaleDateString(
-                                'en-US',
+                                'en-CA',
                                 {
                                     month: '2-digit',
                                     day: '2-digit',

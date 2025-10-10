@@ -7,10 +7,18 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 const formatDate = (date: Date | string | null | undefined) => {
-    const parsedDate = date ? new Date(date) : null
-    if (!parsedDate || isNaN(parsedDate.getTime())) return 'N/A'
+    if (!date) return 'N/A'
+    
+    // If it's already a string in YYYY-MM-DD format, use it directly
+    if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+        const [year, month, day] = date.split('-')
+        return `${parseInt(month)}/${parseInt(day)}/${year}`
+    }
+    
+    const parsedDate = new Date(date)
+    if (isNaN(parsedDate.getTime())) return 'N/A'
 
-    return parsedDate.toLocaleDateString('en-US', {
+    return parsedDate.toLocaleDateString('en-CA', {
         month: 'numeric',
         day: 'numeric',
         year: 'numeric',
