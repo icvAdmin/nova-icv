@@ -16,12 +16,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       # set git identity for push, add client fork as destination remote using client token
       # push curr main branch into fork's main branch
       - name: push main to client fork
         run: |
           git config user.name "Nova-ICV"
-          git config user.email "Nova-ICV@users.noreply.github.com"
+          git config user.email "nova-ci@users.noreply.github.com"
+          git config --global http.https://github.com/.extraheader ""
           git remote add client https://x-access-token:${{ secrets.CLIENT_REPO_TOKEN }}@github.com/icvAdmin/nova-icv.git
-          git push client main
+          git push client HEAD:refs/heads/main
