@@ -18,10 +18,10 @@ jobs:
           fetch-depth: 0
 
       # set git identity for push, add client fork as destination remote using client token
-      # push curr main branch into fork's main branch (only if fast-forward possible to sustain client-side changes)
+      # push curr main branch into fork's main branch
       - name: push main to client fork
         run: |
           git config user.name "Nova-ICV"
           git config user.email "Nova-ICV@users.noreply.github.com"
           git remote add client https://x-access-token:${{ secrets.CLIENT_REPO_TOKEN }}@github.com/icvAdmin/nova-icv.git
-          git push client main --ff-only
+          git push client main
