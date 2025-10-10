@@ -207,6 +207,7 @@ const ProfileSection: React.FC<Props> = ({
                                 <input
                                     {...register('intakeDate')}
                                     type="date"
+                                    defaultValue={new Date().toLocaleDateString('en-CA')}
                                     className="rounded border p-2"
                                 />
                             </div>

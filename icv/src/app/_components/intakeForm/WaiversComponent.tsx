@@ -3,14 +3,12 @@ import {
     LoadedSignature,
     SignaturePopup,
 } from '@/app/_components/intakeForm/SignatureModal'
-import { storage } from '@/data/firebase'
 import {
     ClientIntakeSchema,
     NewClient,
     WaiverSchema,
 } from '@/types/client-types'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import html2pdf from 'html2pdf.js'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
@@ -100,12 +98,13 @@ const WaiverSection: React.FC<Props> = ({
                     },
                 })
                 .from(el)
+                .save()
 
-            const blob = await pdf.outputPdf('blob')
-            const fileRef = ref(storage, `waivers/${filename}`)
-            await uploadBytes(fileRef, blob)
-            const url = await getDownloadURL(fileRef)
-            return { name: filename, uri: url }
+            // const blob = await pdf.outputPdf('blob')
+            // const fileRef = ref(storage, `waivers/${filename}`)
+            // await uploadBytes(fileRef, blob)
+            // const url = await getDownloadURL(fileRef)
+            // return { name: filename, uri: url }
         } catch (err) {
             console.error('Export failed:', err)
             setIsExporting(false)
@@ -114,12 +113,12 @@ const WaiverSection: React.FC<Props> = ({
     }
 
     const handleSubmitType = async (data: ClientType) => {
-        const pdf = await exportPDF()
+        await exportPDF()
 
         const finalData = {
             ...formType,
             ...data,
-            waivers: [...(formType.waivers ?? []), ...(pdf ? [pdf] : [])],
+            // waivers: [...(formType.waivers ?? []), ...(pdf ? [pdf] : [])],
             clientSig1: '',
             clientSig2: '',
             guardianSig: '',
