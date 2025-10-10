@@ -4,9 +4,7 @@ import ScheduledCheckInCreation from '@/app/_components/ScheduledCheckInCreation
 import EventsCalendar from '@/app/_components/EventsCalendar'
 import { useState } from 'react'
 
-interface Props {}
-
-const Page = (props: Props) => {
+const Page = () => {
   const [newEvents, setNewEvents] = useState(false)
 
   return (

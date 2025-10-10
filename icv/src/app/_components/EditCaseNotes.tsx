@@ -108,7 +108,6 @@ const EditCaseNotes: React.FC<EditCaseNotesProps> = ({
         } else {
             setNotes((prev) => prev + '\n ---- Speech to Text Notes: \n') //append to written/any previous notes that we are about to start our vnotes (voice notes)
             recognition.start()
-            handleSave
         }
         setIsRecording(!isRecording)
     }

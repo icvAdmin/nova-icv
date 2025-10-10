@@ -6,9 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
-interface Props {}
-
-const Page = (props: Props) => {
+const Page = () => {
     // get name and updateForm from the store
     const { form: loadedForm, updateForm } = useDogFormStore()
 
