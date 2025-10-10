@@ -1,8 +1,6 @@
 import React from 'react'
 import Navbar from '../_components/Navbar'
 
-interface Props {}
-
 export default function layout({
     children,
 }: Readonly<{

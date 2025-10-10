@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation'
 import { ProgressCircle } from '../../_components/intakeForm/ProgressBar'
 
-export default function layout({
+export default function Layout({
     children,
 }: Readonly<{
     children: React.ReactNode

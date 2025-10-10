@@ -6,9 +6,7 @@ import { getIdToken, onAuthStateChanged } from 'firebase/auth'
 import { useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 
-interface Props {}
-
-const AuthSetup = (props: Props) => {
+const AuthSetup = () => {
     console.log('AuthSetup')
     const router = useRouter()
     const pathname = usePathname()

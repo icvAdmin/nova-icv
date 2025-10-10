@@ -28,8 +28,6 @@ const EditScheduledCheckIn: React.FC<EditScheduledCheckInProps> = ({
     onUpdatedEvent,
     fromEvent,
 }) => {
-    if (!selectedEvent) return null
-
     const [editMode, setEditMode] = useState(fromEvent)
     const [date, setDate] = useState('')
     const [startTime, setStartTime] = useState('')
@@ -182,6 +180,8 @@ const EditScheduledCheckIn: React.FC<EditScheduledCheckInProps> = ({
                 alert('Error deleting event.')
             })
     }
+
+    if (!selectedEvent) return null
 
     return (
         <>

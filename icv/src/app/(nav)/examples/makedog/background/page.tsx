@@ -5,11 +5,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { useDogFormStore } from '../lib/useDogFormStore'
 
 interface Props {}
 
-const page = (props: Props) => {
+const Page = (props: Props) => {
     // get name and updateForm from the store
     const { form: loadedForm, updateForm } = useDogFormStore()
 
@@ -66,4 +65,4 @@ const page = (props: Props) => {
     )
 }
 
-export default page
+export default Page

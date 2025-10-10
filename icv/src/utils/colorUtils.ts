@@ -1,6 +1,7 @@
 // CRC32 table generation
 const table = (() => {
-    let c, table = [];
+    let c;
+    const table = [];
     for (let n = 0; n < 256; n++) {
         c = n;
         for (let k = 0; k < 8; k++) {

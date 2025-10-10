@@ -48,6 +48,8 @@ const CaseNotes: React.FC<CaseNotesProps> = React.memo(({ caseNotes, onChange, o
   </div>
 ))
 
+CaseNotes.displayName = 'CaseNotes';
+
 const MultiStepCheckIn = () => {
   const [step, setStep] = useState<Step>(Step.ChooseClient)
   const [clientSearch, setClientSearch] = useState('')
@@ -114,7 +116,7 @@ const MultiStepCheckIn = () => {
     }
   }
 
-  const submitCaseNotes = async () => {
+  const submitCaseNotes = useCallback(async () => {
     try {
       setSubmitting(true)
       await updateCaseNotes(checkInID, caseNotes);
@@ -131,7 +133,7 @@ const MultiStepCheckIn = () => {
     } finally {
       setSubmitting(false);
     }
-  }
+  }, [checkInID, caseNotes]);
 
 const ChooseClient = () => (
   <ClientSearch
@@ -182,7 +184,7 @@ const ChooseClient = () => (
     <div className="flex flex-col items-center text-center">
       <h2 className="text-2xl font-semibold mb-4">Wellness Check Completed</h2>
       <p className="text-gray-600 mb-8">
-        {selectedClient?.firstName} {selectedClient?.lastName}'s client profile has been updated.
+        {selectedClient?.firstName} {selectedClient?.lastName}&apos;s client profile has been updated.
       </p>
       <button
         type="button"
@@ -196,7 +198,7 @@ const ChooseClient = () => (
   )
 
   const handleCaseNotesChange = useCallback(
-    (e) => setCaseNotes(e.target.value),
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => setCaseNotes(e.target.value),
     [setCaseNotes]
   );
 

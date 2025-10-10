@@ -45,7 +45,7 @@ const EditEvents = ({
 
     const handleSaveAll = async () => {
         // Save all edited events
-        for (let event of eventList) {
+        for (const event of eventList) {
             if (event.isEdited) {
                 await updateEvent(event.id, event) // Save only if edited
                 console.log('Saving event', event)

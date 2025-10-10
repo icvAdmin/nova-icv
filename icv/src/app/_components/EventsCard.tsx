@@ -19,10 +19,9 @@ const EventsCard: React.FC<EventCardProps> = ({
     variant = 'default',
 }) => {
     const router = useRouter()
+    const { user } = useUser()
 
     const eventDate = new Date(event.startTime)
-    if (!isValid(eventDate)) return null
-
     const startTime = eventDate.getTime()
     const date = format(eventDate, 'MMMM d, yyyy')
     const endTime = event.endTime ? new Date(event.endTime).getTime() : null
@@ -33,14 +32,14 @@ const EventsCard: React.FC<EventCardProps> = ({
     const eventCategory = String(event.contactCode) || ''
     const colorClass = categoryColors[String(event.contactCode)]
 
-    const { user } = useUser()
-
     // Handle card click to navigate to event details
     const handleCardClick = () => {
         if (event.id) {
             router.push(`/events/${event.id}`)
         }
     }
+
+    if (!isValid(eventDate)) return null
 
     return (
         <Card

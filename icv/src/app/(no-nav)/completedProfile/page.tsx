@@ -91,7 +91,7 @@ const Page = () => {
                         </label>
                         <p className="text-center text-lg text-gray-700">
                             {createdClient?.firstName} {createdClient?.lastName}
-                            's profile has been created.
+                            &apos;s profile has been created.
                         </p>
                     </div>
                     <div className="flex justify-center gap-[24px]">

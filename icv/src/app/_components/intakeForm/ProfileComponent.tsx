@@ -61,8 +61,8 @@ const ProfileSection: React.FC<Props> = ({
     }, [formType, reset])
 
     useEffect(() => {
-        {
-            spouseID && setValue('associatedSpouseID', spouseID)
+        if (spouseID) {
+            setValue('associatedSpouseID', spouseID)
         }
         console.log(spouseID)
     }, [spouseID])

@@ -13,7 +13,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-const page = () => {
+const Page = () => {
     const [email, setEmail] = useState('')
     const [firstname, setFirstName] = useState('')
     const [lastname, setLastName] = useState('')
@@ -355,7 +355,7 @@ const page = () => {
                             </>
                         ) : (
                             <>
-                                Don't have an account?{' '}
+                                Don&apos;t have an account?{' '}
                                 <span className="font-bold"> Sign Up</span>
                             </>
                         )}
@@ -366,4 +366,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page
