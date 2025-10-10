@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import useSWR from 'swr'
 import { getClientById } from '@/api/clients'
-import { CaseEventType } from '@/types/event-types'
+import { CheckInType } from '@/types/event-types'
 
-const fetchClientNames = async (events: CaseEventType[]): Promise<Map<string, string>> => {
+const fetchClientNames = async (events: CheckInType[]): Promise<Map<string, string>> => {
     const names = new Map<string, string>()
     for (const event of events) {
         try {
@@ -21,7 +21,7 @@ const fetchClientNames = async (events: CaseEventType[]): Promise<Map<string, st
     return names
 }
 
-const useClientNames = (events: CaseEventType[] | undefined) => {
+const useClientNames = (events: CheckInType[] | undefined) => {
     const [clientNames, setClientNames] = useState<Map<string, string>>(new Map())
 
     const { data, error } = useSWR(

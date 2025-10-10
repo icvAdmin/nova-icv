@@ -449,7 +449,8 @@ const SearchComponent = () => {
                             </button>
                         </div>
                         <YearFilter
-                            years={years}
+                            calendarYears={years}
+                            fiscalYears={years}
                             isFilterVisible={isFilterVisible}
                             setIsFilterVisible={setIsFilterVisible}
                             dateFilterType={filters.dateFilterType}

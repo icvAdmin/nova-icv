@@ -5,9 +5,9 @@ import { setCookie } from 'cookies-next'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 
-const TwoFactorAuthPage = () => {
+const TwoFactorAuthContent = () => {
     const [verificationCode, setVerificationCode] = useState('')
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
@@ -159,6 +159,14 @@ const TwoFactorAuthPage = () => {
                 </form>
             </div>
         </div>
+    )
+}
+
+const TwoFactorAuthPage = () => {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <TwoFactorAuthContent />
+        </Suspense>
     )
 }
 

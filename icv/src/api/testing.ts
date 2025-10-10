@@ -1,8 +1,6 @@
 'use server'
 import 'server-only'
 
-import { db } from '@/data/firebase'
-
 import { clientDb } from '@/data/firebase'
 import { addDoc, collection } from 'firebase/firestore'
 

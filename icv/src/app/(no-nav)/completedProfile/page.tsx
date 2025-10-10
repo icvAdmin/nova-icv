@@ -4,10 +4,10 @@ import { getClientById, updateClient } from '@/api/make-cases/make-case'
 import { createHousingUpdate } from '@/api/make-cases/make-housing'
 import { ClientIntakeSchema } from '@/types/client-types'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { TypeOf } from 'zod'
 
-const Page = () => {
+const CompletedProfileContent = () => {
     type ClientType = TypeOf<typeof ClientIntakeSchema>
     const searchParams = useSearchParams()
     const clientID = searchParams.get('clientID')
@@ -129,6 +129,14 @@ const Page = () => {
                 </div>
             </div>
         </div>
+    )
+}
+
+const Page = () => {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <CompletedProfileContent />
+        </Suspense>
     )
 }
 

@@ -4,9 +4,9 @@ import { ClientFamilyToggle } from '@/app/_components/clientProfile/EditClientFa
 const page = async ({
     params,
 }: {
-    params: {
+    params: Promise<{
         clientId: string
-    }
+    }>
 }) => {
     const { clientId } = await params
     const client = await getClientById(clientId)

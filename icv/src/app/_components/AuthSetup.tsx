@@ -35,7 +35,7 @@ const AuthSetup = () => {
         })
 
         return () => unsubscribe()
-    }, [])
+    }, [pathname, router])
 
     return null
 }

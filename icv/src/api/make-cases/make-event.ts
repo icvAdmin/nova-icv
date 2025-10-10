@@ -2,8 +2,8 @@
 import 'server-only'
 
 import { getAuthenticatedAppForUser } from '@/lib/serverApp'
-import { CaseEventType } from '@/types/event-types'
-import { db } from '@/data/firebase'
+import { CheckInType } from '@/types/event-types'
+import { clientDb } from '@/data/firebase'
 
 import {
     addDoc,
@@ -11,12 +11,13 @@ import {
     deleteDoc,
     doc,
     getDocs,
+    getFirestore,
     query,
     updateDoc,
     where,
 } from 'firebase/firestore'
 
-export async function createEvent(event: CaseEventType) {
+export async function createEvent(event: CheckInType) {
     const { firebaseServerApp, currentUser } =
         await getAuthenticatedAppForUser()
     if (!currentUser) {
@@ -54,7 +55,7 @@ export async function getEventsbyClientId(clientId: string) {
     return events
 }
 
-export async function updateEvent(id: string, updatedEvent: CaseEventType) {
+export async function updateEvent(id: string, updatedEvent: CheckInType) {
     const { firebaseServerApp, currentUser } =
         await getAuthenticatedAppForUser()
     if (!currentUser) {

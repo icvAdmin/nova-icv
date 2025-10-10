@@ -81,12 +81,12 @@ const ClientsTable: React.FC<ClientsTableProps> = ({
     ])
     const [isFilterVisible, setIsFilterVisible] = useState(true)
 
-    const QUARTERS = [
+    const QUARTERS = React.useMemo(() => [
         { label: 'Q1: JUL-SEP', months: ['7', '8', '9'] },
         { label: 'Q2: OCT-DEC', months: ['10', '11', '12'] },
         { label: 'Q3: JAN-MAR', months: ['1', '2', '3'] },
         { label: 'Q4: APR-JUN', months: ['4', '5', '6'] },
-    ]
+    ], [])
 
     // Filtering logic
     const [filteredClients, setFilteredClients] = useState<NewClient[]>(clients)
@@ -211,6 +211,7 @@ const ClientsTable: React.FC<ClientsTableProps> = ({
         selectedQuarters,
         sortField,
         sortDirection,
+        QUARTERS,
     ])
 
     const [hiddenColumns, setHiddenColumns] = useState<string[]>([])

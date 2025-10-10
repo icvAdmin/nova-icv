@@ -11,7 +11,7 @@ import ClickAwayListener from '@mui/material/ClickAwayListener'
 import { collection, getDocs, or, query, where } from 'firebase/firestore'
 import { ChevronLeft, ChevronRight, ArrowUpDown } from 'lucide-react'
 import { useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import {
     Select,

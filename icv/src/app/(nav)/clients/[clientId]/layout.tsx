@@ -6,10 +6,10 @@ export default async function layout({
     params,
     children,
 }: Readonly<{
-    params: { clientId: string }
+    params: Promise<{ clientId: string }>
     children: React.ReactNode
 }>) {
-    const { clientId } = params
+    const { clientId } = await params
     const client = await getClientById(clientId)
     if (!client) {
         throw new Error('Client does not exist')

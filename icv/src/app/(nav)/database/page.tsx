@@ -2,13 +2,13 @@
 
 import { getAllClients } from '@/api/clients'
 import { NewClient } from '@/types/client-types'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import ClientsTable from './_components/ClientsTable'
 import PieChart from './_components/PieChart'
 import HousingStatusTable from './_components/HousingStatusTable'
 import { useRouter, useSearchParams } from 'next/navigation'
 
-const DatabasePage = () => {
+const DatabaseContent = () => {
     const router = useRouter()
     const searchParams = useSearchParams()
     const [activeView, setActiveView] = useState<'table' | 'chart' | 'housing'>(() => {
@@ -97,6 +97,14 @@ const DatabasePage = () => {
                 <HousingStatusTable />
             )}
         </div>
+    )
+}
+
+const DatabasePage = () => {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <DatabaseContent />
+        </Suspense>
     )
 }
 

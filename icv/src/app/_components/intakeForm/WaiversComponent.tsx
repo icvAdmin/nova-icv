@@ -9,7 +9,6 @@ import {
     WaiverSchema,
 } from '@/types/client-types'
 import { zodResolver } from '@hookform/resolvers/zod'
-import html2pdf from 'html2pdf.js'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -85,6 +84,7 @@ const WaiverSection: React.FC<Props> = ({
                     : new Date().toISOString().split('T')[0]
             const filename = `${formType.clientCode}_${today}.pdf`
 
+            const html2pdf = (await import('html2pdf.js')).default
             const pdf = html2pdf()
                 .set({
                     margin: 1,

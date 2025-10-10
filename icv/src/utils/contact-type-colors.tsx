@@ -14,7 +14,7 @@ export const contactTypeColors: Record<typeof ContactType.Values[keyof typeof Co
     'Individual Meeting': { background: 'bg-purple-100', text: 'text-purple-800' },
     'Family Meeting': { background: 'bg-teal-100', text: 'text-teal-800' },
     'Referral to Service Provider': { background: 'bg-rose-100', text: 'text-rose-800' },
-    'Emplyment Job Readiness': { background: 'bg-lime-100', text: 'text-lime-800' },
+    'Employment Job Readiness': { background: 'bg-lime-100', text: 'text-lime-800' },
     'Transportation': { background: 'bg-indigo-100', text: 'text-indigo-800' },
     'Tracking Check Up': { background: 'bg-orange-100', text: 'text-orange-800' },
     'Advocacy': { background: 'bg-violet-100', text: 'text-violet-800' },

@@ -1,6 +1,6 @@
 'use client'
 
-import { auth } from '@/lib/firebase'
+import { auth } from '@/data/firebase'
 import { getCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react'
 export function useAuth() {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
     const router = useRouter()
-    
+
     useEffect(() => {
         const idToken = getCookie('idToken')
         if (!idToken) {
@@ -17,7 +17,7 @@ export function useAuth() {
             router.push('/login')
             return
         }
-        
+
         const unsubscribe = auth.onAuthStateChanged(user => {
             if (user) {
                 setIsAuthenticated(true)
@@ -26,9 +26,9 @@ export function useAuth() {
                 router.push('/login')
             }
         })
-        
+
         return () => unsubscribe()
     }, [router])
-    
+
     return { isAuthenticated, user: auth.currentUser }
 } 

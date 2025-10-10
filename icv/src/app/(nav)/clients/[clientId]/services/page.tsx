@@ -4,9 +4,9 @@ import { ClientServicesToggle } from '@/app/_components/clientProfile/EditClient
 const page = async ({
     params,
 }: {
-    params: {
+    params: Promise<{
         clientId: string
-    }
+    }>
 }) => {
     const { clientId } = await params
     const client = await getClientById(clientId)

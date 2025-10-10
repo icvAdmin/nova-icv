@@ -2,7 +2,7 @@
 
 import { createEvent } from '@/api/make-cases/make-event'
 import { useLocalStorageForm } from '@/hooks/saveFormLocally'
-import { CaseEventSchema, ContactType } from '@/types/event-types'
+import { CheckInSchema, ContactType } from '@/types/event-types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
@@ -27,7 +27,7 @@ export default function ClientEvents({
         watch, // track form changes
         setValue, // used to set the values of the form when loading saved info
         // onChange makes error messages appear/disappear dynamically
-    } = useForm({ mode: 'onChange', resolver: zodResolver(CaseEventSchema) })
+    } = useForm({ mode: 'onChange', resolver: zodResolver(CheckInSchema) })
 
     useLocalStorageForm({
         storageKey: `client-events-${clientID}`, // Unique storage key for each client
@@ -39,9 +39,10 @@ export default function ClientEvents({
         console.log(data) // just prints the data collected into console
 
         await createEvent({
-            clientId: clientID, // Use the clientId passed as a prop
-            date: data.date,
-            contactType: data.contactType,
+            startTime: data.date,
+            scheduled: false,
+            clientId: clientID,
+            contactCode: data.contactType,
             description: data.description,
         })
         // await createDog({

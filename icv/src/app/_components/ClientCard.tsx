@@ -52,7 +52,7 @@ const ClientCard: React.FC<ClientCardProps> = ({
         }
 
         fetchLastCheckIn()
-    }, [client.docId])
+    }, [client.docId, showLastCheckin])
 
     return (
         <Card className="flex min-h-24 w-full bg-white p-4 hover:bg-gray-50">

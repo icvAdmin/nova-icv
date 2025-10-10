@@ -2,9 +2,10 @@
 
 import ProfileSection from '@/app/_components/intakeForm/ProfileComponent'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 import { useIntakeFormStore } from '../../_lib/useIntakeFormStore'
 
-const Page = () => {
+const IntakeContent = () => {
     const searchParams = useSearchParams()
     const spouseID = searchParams?.get('spouseID') || undefined
 
@@ -34,6 +35,14 @@ const Page = () => {
                 />
             </div>
         </div>
+    )
+}
+
+const Page = () => {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <IntakeContent />
+        </Suspense>
     )
 }
 

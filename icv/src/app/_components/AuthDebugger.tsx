@@ -4,7 +4,12 @@ import { getCookie } from 'cookies-next'
 import { useEffect, useState } from 'react'
 
 export default function AuthDebugger() {
-    const [authState, setAuthState] = useState({
+    const [authState, setAuthState] = useState<{
+        isLoggedIn: boolean
+        user: { uid: string; email: string | null; displayName: string | null } | null
+        cookie: string | null
+        loading: boolean
+    }>({
         isLoggedIn: false,
         user: null,
         cookie: null,
@@ -12,8 +17,8 @@ export default function AuthDebugger() {
     })
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
-            const cookie = getCookie('idToken')
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+            const cookie = await getCookie('idToken')
             setAuthState({
                 isLoggedIn: !!user,
                 user: user

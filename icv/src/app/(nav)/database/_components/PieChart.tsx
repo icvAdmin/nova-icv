@@ -17,8 +17,6 @@ import {
     TableRow,
 } from '@/components/ui/table'
 import { fetchCheckInCounterData } from '@/lib/firestoreUtils'
-import html2canvas from 'html2canvas'
-import html2pdf from 'html2pdf.js'
 import { Download } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import {
@@ -240,6 +238,7 @@ const PieChart = () => {
             const filename = `CheckIns_${today}.${format}`
 
             if (format === 'pdf') {
+                const html2pdf = (await import('html2pdf.js')).default
                 await html2pdf()
                     .set({
                         filename,
@@ -262,6 +261,7 @@ const PieChart = () => {
                     .save()
             } else {
                 // For PNG export
+                const html2canvas = (await import('html2canvas')).default
                 const canvas = await html2canvas(el, {
                     scale: 2,
                     useCORS: true,
