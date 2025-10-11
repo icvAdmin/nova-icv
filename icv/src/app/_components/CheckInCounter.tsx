@@ -164,7 +164,7 @@ const CheckInCounter: React.FC = () => {
                                 </h1>
                             </div>
                             <div className="flex items-center space-x-1">
-                                {hygieneKits['day'] > 0 && (
+                                {hygieneKits[timeFrame] > 0 && (
                                     <button
                                         onClick={() =>
                                             handleDecrement('hygieneKits')

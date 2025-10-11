@@ -18,9 +18,6 @@ import {
     setDoc,
     deleteDoc,
     increment,
-    sum,
-    getAggregateFromServer,
-    documentId
 } from 'firebase/firestore'
 const timeZone = 'America/Los_Angeles';
 

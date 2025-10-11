@@ -10,32 +10,6 @@ import Symbol from '../../components/Symbol'
 import LogoutButton from './LogoutButton'
 
 const Navbar = () => {
-    // const [name, setName] = useState<string>('')
-    // const [email, setEmail] = useState<string>('')
-    // const [photoURL, setPhotoURL] = useState<string>('')
-    // // This useEffect hook listens for changes in the user's authentication state
-    // // When the user logs in or out, it updates the displayed name
-    // // The hook sets up a listener when the component mounts and cleans it up on unmount
-    // // The empty dependency array [] means this effect only runs once when mounted
-    // useEffect(() => {
-    //     //listen for changes in auth state
-    //     const unsubscribe = auth.onAuthStateChanged((user) => {
-    //         if (user) {
-    //             setName(user.displayName || '')
-    //             console.log('User display name:', user.displayName)
-    //             setEmail(user.email || '')
-    //             setPhotoURL(user.photoURL || '')
-    //             console.log('User photoURL:', user.photoURL)
-    //         } else {
-    //             setName('')
-    //             setEmail('')
-    //             setPhotoURL('')
-    //         }
-    //     })
-
-    //     return () => unsubscribe()
-    // }, [])
-
     const { user } = useUser()
     const [open, setOpen] = useState(false)
     const menuRef = useRef<HTMLDivElement>(null)
@@ -62,92 +36,99 @@ const Navbar = () => {
 
     return (
         <div>
-            {/*tablet view*/} 
-            {!open && (      
-            <div ref={menuRef} className="md:hidden flex fixed left-0 top-0 h-full w-20 flex-col items-center gap-4 bg-foreground text-background">
-                <div onClick={() => setOpen(true)} className="absolute top-4 justify-center cursor-pointer z-50">
-                    <Symbol symbol="menu" />
+            {/*tablet view*/}
+            {!open && (
+                <div
+                    ref={menuRef}
+                    className="fixed left-0 top-0 flex h-full w-20 flex-col items-center gap-4 bg-foreground text-background md:hidden"
+                >
+                    <div
+                        onClick={() => setOpen(true)}
+                        className="absolute top-4 z-50 cursor-pointer justify-center"
+                    >
+                        <Symbol symbol="menu" />
+                    </div>
+                    <div className="py-6" />
+                    <div className="flex w-full flex-col items-center justify-center gap-2 py-8">
+                        <img
+                            src={user?.photoURL || '/icv.png'}
+                            alt="logo"
+                            className="m-4 h-16 w-16 rounded-full"
+                        />
+                    </div>
+                    <div className="flex w-full flex-col items-center justify-center">
+                        <NavLink href="/" collapsed>
+                            <Symbol symbol="home" largerIcon />
+                        </NavLink>
+                        <NavLink href="/intake" collapsed>
+                            <Symbol symbol="add" largerIcon />
+                        </NavLink>
+                        <NavLink href="/calendar" collapsed>
+                            <Symbol symbol="calendar_month" largerIcon />
+                        </NavLink>
+                        <NavLink href="/clients" collapsed>
+                            <Symbol symbol="group" largerIcon />
+                        </NavLink>
+                        <NavLink href="/database" collapsed>
+                            <Symbol symbol="database" largerIcon />
+                        </NavLink>
+                        <NavLink href="/settings" collapsed>
+                            <Symbol symbol="Settings" largerIcon />
+                        </NavLink>
+                    </div>
                 </div>
-                <div className='py-6'/>
-                <div className="flex w-full flex-col items-center justify-center gap-2 py-8">
-                    <img
-                        src={
-                            user?.photoURL || '/cavediva.jpeg'
-                        }
-                        alt="logo"
-                        className="m-4 h-16 w-16 rounded-full"
-                    />
+            )}
+            {open && (
+                <div
+                    ref={menuRef}
+                    className="fixed left-0 top-0 z-50 flex h-full w-64 flex-col items-center gap-4 bg-foreground text-background md:hidden"
+                >
+                    <div className="flex w-full flex-col items-center justify-center gap-2 py-8">
+                        <img
+                            src={user?.photoURL || '/icv.png'}
+                            alt="logo"
+                            className="m-4 h-16 w-16 rounded-full"
+                        />
+                        <h1 className="text-xl font-bold">
+                            {user?.displayName}
+                        </h1>
+                        <p>{user?.email}</p>
+                    </div>
+                    <div className="flex w-full flex-col items-center justify-start">
+                        <NavLink href="/">
+                            <Symbol symbol="home" />
+                            Home
+                        </NavLink>
+                        <NavLink href="/intake">
+                            <Symbol symbol="add" />
+                            Intake
+                        </NavLink>
+                        <NavLink href="/calendar">
+                            <Symbol symbol="calendar_month" />
+                            Calendar
+                        </NavLink>
+                        <NavLink href="/clients">
+                            <Symbol symbol="group" />
+                            Clients
+                        </NavLink>
+                        <NavLink href="/database">
+                            <Symbol symbol="database" />
+                            Database
+                        </NavLink>
+                        <NavLink href="/settings">
+                            <Symbol symbol="Settings" />
+                            Settings
+                        </NavLink>
+                    </div>
+                    <div className="flex-1" />
+                    <LogoutButton />
                 </div>
-                <div className="flex w-full flex-col items-center justify-center">
-                    <NavLink href="/" collapsed>
-                        <Symbol symbol="home" largerIcon/>
-                    </NavLink>
-                    <NavLink href="/intake" collapsed>
-                        <Symbol symbol="add" largerIcon/>
-                    </NavLink>
-                    <NavLink href="/calendar" collapsed>
-                        <Symbol symbol="calendar_month" largerIcon/>
-                    </NavLink>
-                    <NavLink href="/clients" collapsed>
-                        <Symbol symbol="group" largerIcon/>
-                    </NavLink>
-                    <NavLink href="/database" collapsed>
-                        <Symbol symbol="database" largerIcon/>
-                    </NavLink>
-                    <NavLink href="/settings" collapsed>
-                        <Symbol symbol="Settings" largerIcon/>
-                    </NavLink>
-                </div>
-            </div>
-            )}   
-            {open && (        
-            <div ref={menuRef} className="md:hidden z-50 flex fixed left-0 top-0 h-full w-64 flex-col items-center gap-4 bg-foreground text-background">
-                <div className="flex w-full flex-col items-center justify-center gap-2 py-8">
-                    <img
-                        src={
-                            user?.photoURL || '/cavediva.jpeg'
-                        }
-                        alt="logo"
-                        className="m-4 h-16 w-16 rounded-full"
-                    />
-                    <h1 className="text-xl font-bold">{user?.displayName}</h1>
-                    <p>{user?.email}</p>
-                </div>
-                <div className="flex w-full flex-col items-center justify-start">
-                    <NavLink href="/">
-                        <Symbol symbol="home" />
-                        Home
-                    </NavLink>
-                    <NavLink href="/intake">
-                        <Symbol symbol="add" />
-                        Intake
-                    </NavLink>
-                    <NavLink href="/calendar">
-                        <Symbol symbol="calendar_month" />
-                        Calendar
-                    </NavLink>
-                    <NavLink href="/clients">
-                        <Symbol symbol="group" />
-                        Clients
-                    </NavLink>
-                    <NavLink href="/database">
-                        <Symbol symbol="database" />
-                        Database
-                    </NavLink>
-                    <NavLink href="/settings">
-                        <Symbol symbol="Settings" />
-                        Settings
-                    </NavLink>
-                </div>
-                <div className="flex-1" />
-                <LogoutButton />
-            </div>
             )}
             {/* desktop view*/}
             <div className="fixed left-0 top-0 hidden h-full w-64 flex-col items-center gap-4 bg-foreground text-background md:flex">
                 <div className="flex w-full flex-col items-center justify-center gap-2 py-8">
                     <img
-                        src={user?.photoURL || '/cavediva.jpeg'}
+                        src={user?.photoURL || '/icv.png'}
                         alt="logo"
                         className="m-4 h-16 w-16 rounded-full"
                     />
@@ -208,8 +189,8 @@ const NavLink = ({ href, children, collapsed = false }: NavLinkProps) => {
             href={href}
             className={cn(
                 collapsed
-                    ? 'flex w-full justify-center py-4 items-center'
-                    : 'flex w-full flex-row justify-start gap-2 px-6 py-4 text-center items-center',
+                    ? 'flex w-full items-center justify-center py-4'
+                    : 'flex w-full flex-row items-center justify-start gap-2 px-6 py-4 text-center',
                 {
                     'bg-background': isActive,
                     'text-foreground': isActive,
