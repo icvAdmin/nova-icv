@@ -1,5 +1,6 @@
 name: mirror main branch to client fork
 
+# trigger: run workflow when there's a push to main branch
 on:
   push:
     branches: [ main ]
@@ -10,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        # fetch all commits, instead of doing a shallow mirroring
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -22,12 +24,4 @@ jobs:
           git config user.email "nova-ci@users.noreply.github.com"
           git config --global http.https://github.com/.extraheader ""
           git remote add client "https://x-access-token:${{ secrets.CLIENT_REPO_TOKEN }}@github.com/icvAdmin/nova-icv.git"
-
-          if git push client HEAD:refs/heads/main; then
-            exit 0
-          fi
-
-          git fetch client main:refs/remotes/client/main
-          BACKUP="backup/pre-alignment-$(date +%Y%m%d-%H%M%S)"
-          git push client refs/remotes/client/main:refs/heads/${BACKUP}
-          git push client HEAD:refs/heads/main --force-with-lease
+          git push client HEAD:refs/heads/main
