@@ -4,11 +4,16 @@ name: mirror main branch to client fork
 on:
   push:
     branches: [ main ]
+  # manual trigger button to run workflow
   workflow_dispatch: {}
 
 jobs:
+  # job name
   mirror:
+    # only run this workflow in the main repo, not in forks
+    if: github.repository == 'novaforgood/ICV'
     runs-on: ubuntu-latest
+    # download repo source code to VM, and fetch entire commit history
     steps:
       - uses: actions/checkout@v4
         # fetch all commits, instead of doing a shallow mirroring
@@ -16,6 +21,8 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      # set git identity for push, add client fork as destination remote using client token
+      # push current main branch into fork's main branch
       - name: push main to client fork
         shell: bash
         run: |
