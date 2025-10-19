@@ -96,8 +96,8 @@ importers:
         specifier: ^5.4.0
         version: 5.4.0(react@19.0.0)
       react-signature-canvas:
-        specifier: 1.1.0-alpha.2
-        version: 1.1.0-alpha.2(@types/prop-types@15.7.14)(@types/react@19.0.7)(prop-types@15.8.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: 1.0.7
+        version: 1.0.7(prop-types@15.8.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       reactjs-popup:
         specifier: ^2.0.6
         version: 2.0.6(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -147,6 +147,9 @@ importers:
       '@types/react-dom':
         specifier: ^19
         version: 19.0.3(@types/react@19.0.7)
+      '@types/react-signature-canvas':
+        specifier: ^1.0.7
+        version: 1.0.7
       eslint:
         specifier: ^9
         version: 9.18.0(jiti@2.4.2)
@@ -1919,6 +1922,9 @@ packages:
     resolution: {integrity: sha512-0Knk+HJiMP/qOZgMyNFamlIjw9OFCsyC2ZbigmEEyXXixgre6IQpm/4V+r3qH4GC1JPvRJKInw+on2rV6YZLeA==}
     peerDependencies:
       '@types/react': ^19.0.0
+
+  '@types/react-signature-canvas@1.0.7':
+    resolution: {integrity: sha512-0ulzaUvcIQ0HdNB5fHj+KE7ztWhlhYRsi65TdPIRj/t+FD5Rr8NJKBv4/xLViz7HsUh/tgqsoyKeARrm9+gPIg==}
 
   '@types/react-transition-group@4.4.12':
     resolution: {integrity: sha512-8TV6R3h2j7a91c+1DXdJi3Syo69zzIZbz7Lg5tORM5LEJG7X/E6a1V3drRyBRZq7/utz7A+c4OgYLiLcYGHG6w==}
@@ -3820,19 +3826,12 @@ packages:
       '@types/react':
         optional: true
 
-  react-signature-canvas@1.1.0-alpha.2:
-    resolution: {integrity: sha512-tKUNk3Gmh04Ug4K8p5g8Is08BFUKvbXxi0PyetQ/f8OgCBzcx4vqNf9+OArY/TdNdfHtswXQNRwZD6tyELjkjQ==}
+  react-signature-canvas@1.0.7:
+    resolution: {integrity: sha512-yo0x0uTMVmcClaqryuQu6F8xEVapk5zdM9/nuQ7GalDJWccoVNZPMmCFGK7U5r3I0mrEHPB9E5/rFSYUgZcfmA==}
     peerDependencies:
-      '@types/prop-types': ^15.7.3
-      '@types/react': 0.14 - 19
       prop-types: ^15.5.8
       react: 0.14 - 19
       react-dom: 0.14 - 19
-    peerDependenciesMeta:
-      '@types/prop-types':
-        optional: true
-      '@types/react':
-        optional: true
 
   react-smooth@4.0.4:
     resolution: {integrity: sha512-gnGKTpYwqL0Iii09gHobNolvX4Kiq4PKx6eWBCYYix+8cdw+cGo3do906l1NBPKkSWx1DghC1dlWG9L2uGd61Q==}
@@ -6157,6 +6156,11 @@ snapshots:
     dependencies:
       '@types/react': 19.0.7
 
+  '@types/react-signature-canvas@1.0.7':
+    dependencies:
+      '@types/react': 19.0.7
+      '@types/signature_pad': 2.3.6
+
   '@types/react-transition-group@4.4.12(@types/react@19.0.7)':
     dependencies:
       '@types/react': 19.0.7
@@ -8330,18 +8334,13 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.0.7
 
-  react-signature-canvas@1.1.0-alpha.2(@types/prop-types@15.7.14)(@types/react@19.0.7)(prop-types@15.8.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+  react-signature-canvas@1.0.7(prop-types@15.8.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
-      '@babel/runtime': 7.27.0
-      '@types/signature_pad': 2.3.6
       prop-types: 15.8.1
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
       signature_pad: 2.3.2
       trim-canvas: 0.1.2
-    optionalDependencies:
-      '@types/prop-types': 15.7.14
-      '@types/react': 19.0.7
 
   react-smooth@4.0.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
