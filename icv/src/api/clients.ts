@@ -5,10 +5,26 @@ import { getAuthenticatedAppForUser } from '@/lib/serverApp'
 import { NewClient } from '@/types/client-types'
 import { collection, getDoc, getDocs, getFirestore, doc, where, limit, orderBy, query, setDoc, deleteDoc } from 'firebase/firestore'
 import { Resend } from "resend"
-import { getApp, getApps, initializeApp, cert } from 'firebase-admin/app';
-import { getFirestore as getAdminFirestore } from 'firebase-admin/firestore';
-import  {Users} from '@/types/user-types'
+import { Users } from '@/types/user-types'
 import { User } from 'firebase/auth'
+
+// Helper function to get admin Firestore instance using dynamic imports
+async function getAdminFirestore() {
+    const { getApps, initializeApp, cert } = await import('firebase-admin/app');
+    const { getFirestore } = await import('firebase-admin/firestore');
+
+    if (!getApps().length) {
+        initializeApp({
+            credential: cert({
+                projectId: process.env.FIREBASE_PROJECT_ID,
+                clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+                privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+            }),
+        });
+    }
+
+    return getFirestore();
+}
 
 
 // Extended client type with lastCheckinDate
@@ -17,17 +33,7 @@ interface ClientWithLastCheckin extends NewClient {
 }
 
 export async function start2FA(email: string) {
-    if (!getApps().length) {
-        initializeApp({
-          credential: cert({
-            projectId: process.env.FIREBASE_PROJECT_ID,
-            clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-            privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-          }),
-        });
-      }
-      
-    const ssrdb = getAdminFirestore();
+    const ssrdb = await getAdminFirestore();
 
     const code = Math.floor(100000 + Math.random() * 900000).toString()
     const expiresAt = Date.now() + 15 * 60 * 1000 // 15 minutes
@@ -39,13 +45,13 @@ export async function start2FA(email: string) {
         createdAt: new Date()
     })
 
-    
+
     // Email it 
     const resend = new Resend(process.env.RESEND_API_KEY)
 
     try {
         await resend.emails.send({
-            from: 'admin@icvcommunity.org', 
+            from: 'admin@icvcommunity.org',
             to: email,
             subject: 'Your ICV 2FA Code',
             html: `<p>Your verification code is <strong>${code}</strong>. This code expires in 15 minutes.</p>`
@@ -59,23 +65,13 @@ export async function start2FA(email: string) {
     return { success: true }
 }
 
-export async function verify2FA(email:string, verificationCode: string) {
-    if (!getApps().length) {
-        initializeApp({
-          credential: cert({
-            projectId: process.env.FIREBASE_PROJECT_ID,
-            clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-            privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-          }),
-        });
-      }
-      
-    const ssrdb = getAdminFirestore();
+export async function verify2FA(email: string, verificationCode: string) {
+    const ssrdb = await getAdminFirestore();
 
     const codeDocRef = ssrdb.collection("2faCodes").doc(email);
     const docSnap = await codeDocRef.get();
 
-    if (!docSnap.exists){
+    if (!docSnap.exists) {
         throw new Error("Invalid or expired code.");
     }
 
@@ -98,14 +94,14 @@ export async function verify2FA(email:string, verificationCode: string) {
 }
 
 export async function getAllClients(): Promise<NewClient[]> {
-    const { firebaseServerApp, currentUser } = 
+    const { firebaseServerApp, currentUser } =
         await getAuthenticatedAppForUser()
     if (!currentUser) {
         throw new Error('User not found')
     }
     const ssrdb = getFirestore(firebaseServerApp)
 
-    const clientsCollection = collection(ssrdb, 'clients') 
+    const clientsCollection = collection(ssrdb, 'clients')
     const clientsSnapshot = await getDocs(clientsCollection)
     const clientsList = clientsSnapshot.docs.map((doc) => {//returns array of client objects by applying arrow function to docs snapshot
         const data = doc.data() as NewClient
@@ -115,7 +111,7 @@ export async function getAllClients(): Promise<NewClient[]> {
     return clientsList
 }
 
-export async function getAllUsers():  Promise<Users[]> {
+export async function getAllUsers(): Promise<Users[]> {
     const { firebaseServerApp, currentUser } =
         await getAuthenticatedAppForUser()
     if (!currentUser) {
@@ -136,7 +132,7 @@ export async function getAllUsers():  Promise<Users[]> {
 }
 
 export async function getUsersCollection(): Promise<string[]> {
-        const { firebaseServerApp, currentUser } =
+    const { firebaseServerApp, currentUser } =
         await getAuthenticatedAppForUser()
     if (!currentUser) {
         throw new Error('User not found')
@@ -188,24 +184,24 @@ export async function getClientByCaseManager(): Promise<ClientWithLastCheckin[]>
     const clientsWithLatestEvents = await Promise.all(
         clientsList.map(async (client) => {
             if (!client.id) return client as ClientWithLastCheckin;
-            
+
             // Query the events collection for this client
             const eventsCollection = collection(ssrdb, 'events');
             const eventsQuery = query(
-                eventsCollection, 
+                eventsCollection,
                 where('clientId', '==', client.id),
                 orderBy('endTime', 'desc'),
                 limit(1)
             );
-            
+
             const eventsSnapshot = await getDocs(eventsQuery);
-            
+
             // If there are events, add the latest endTime to the client object
             if (!eventsSnapshot.empty) {
                 const latestEvent = eventsSnapshot.docs[0].data();
                 const timestamp = latestEvent.endTime;
                 let dateString = null;
-                
+
                 if (timestamp) {
                     if (typeof timestamp === 'string') {
                         dateString = timestamp;
@@ -217,7 +213,7 @@ export async function getClientByCaseManager(): Promise<ClientWithLastCheckin[]>
                         dateString = new Date(timestamp.seconds * 1000).toISOString();
                     }
                 }
-                
+
                 return {
                     ...client,
                     lastCheckinDate: dateString
@@ -264,24 +260,24 @@ export async function getAllClientsByLastCheckinDate(): Promise<ClientWithLastCh
     const clientsWithLatestEvents = await Promise.all(
         clientsList.map(async (client) => {
             if (!client.id) return client as ClientWithLastCheckin;
-            
+
             // Query the events collection for this client
             const eventsCollection = collection(ssrdb, 'events');
             const eventsQuery = query(
-                eventsCollection, 
+                eventsCollection,
                 where('clientId', '==', client.id),
                 orderBy('endTime', 'desc'),
                 limit(1)
             );
-            
+
             const eventsSnapshot = await getDocs(eventsQuery);
-            
+
             // If there are events, add the latest endTime to the client object
             if (!eventsSnapshot.empty) {
                 const latestEvent = eventsSnapshot.docs[0].data();
                 const timestamp = latestEvent.endTime;
                 let dateString = null;
-                
+
                 if (timestamp) {
                     if (typeof timestamp === 'string') {
                         dateString = timestamp;
@@ -293,7 +289,7 @@ export async function getAllClientsByLastCheckinDate(): Promise<ClientWithLastCh
                         dateString = new Date(timestamp.seconds * 1000).toISOString();
                     }
                 }
-                
+
                 return {
                     ...client,
                     lastCheckinDate: dateString
