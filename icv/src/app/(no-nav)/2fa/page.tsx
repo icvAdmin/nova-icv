@@ -2,7 +2,7 @@
 import { start2FA, verify2FA } from '@/api/clients'
 import { auth } from '@/data/firebase'
 import { setCookie } from 'cookies-next'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useEffect, useState } from 'react'
@@ -82,7 +82,19 @@ const TwoFactorAuthContent = () => {
     }
 
     // Handle back to login
-    const handleBackToLogin = () => {
+    const handleBackToLogin = async () => {
+        // Clear any pending 2FA credentials
+        sessionStorage.removeItem('2fa-email')
+        sessionStorage.removeItem('2fa-pw')
+
+        // Ensure the Firebase auth session is cleared so the user
+        // is not considered authenticated without completing 2FA
+        try {
+            await signOut(auth)
+        } catch (err) {
+            console.error('Error signing out during 2FA cancel:', err)
+        }
+
         router.push('/login')
     }
 
