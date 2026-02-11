@@ -76,7 +76,7 @@ const EventsCard: React.FC<EventCardProps> = ({
             {/* Assignee Column */}
             <div className="flex max-w-[300px] flex-row items-center text-center">
                 <img
-                    src={user?.photoURL || '/cavediva.jpeg'}
+                    src={user?.photoURL || '/icv.png'}
                     alt="logo"
                     className="h-10 w-10 rounded-full"
                 />
