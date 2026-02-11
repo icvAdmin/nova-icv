@@ -184,7 +184,7 @@ const Page = () => {
     return (
         <div className="flex min-h-screen flex-col items-center justify-center bg-white p-6">
             <Image
-                src="/icv.png"
+                src='/icv.png'
                 alt="icv logo"
                 width={100}
                 height={100}
