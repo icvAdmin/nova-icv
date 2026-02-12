@@ -2,6 +2,8 @@
 
 import React, { useMemo, useState, useEffect } from 'react'
 import { Calendar, dateFnsLocalizer, Views } from 'react-big-calendar'
+// @ts-expect-error TimeGrid is not in the package's public exports
+import TimeGrid from 'react-big-calendar/lib/TimeGrid'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { getMyScheduledEvents, getScheduledEvents } from '@/api/events'
@@ -16,11 +18,62 @@ import {
   parse,
   startOfWeek,
   startOfDay,
-  endOfDay,
+  addDays,
 } from 'date-fns'
 
 import { enUS } from 'date-fns/locale'
-import useSWR from 'swr'
+
+function useIsSmallScreen() {
+  const [isSmall, setIsSmall] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 1024px)')
+    const handler = () => setIsSmall(mq.matches)
+    handler()
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+  return isSmall
+}
+
+// 3-day view for small screens (uses same API as Week: range, navigate, title)
+function ThreeDayView(props: any) {
+  const { date, localizer, min, max, scrollToTime, enableAutoScroll, ...rest } = props
+  const range = ThreeDayView.range(date)
+  const minProp = min ?? localizer.startOf(new Date(), 'day')
+  const maxProp = max ?? localizer.endOf(new Date(), 'day')
+  const scrollToTimeProp = scrollToTime ?? localizer.startOf(new Date(), 'day')
+  const enableAutoScrollProp = enableAutoScroll ?? true
+  return (
+    <TimeGrid
+      {...rest}
+      range={range}
+      eventOffset={15}
+      localizer={localizer}
+      min={minProp}
+      max={maxProp}
+      scrollToTime={scrollToTimeProp}
+      enableAutoScroll={enableAutoScrollProp}
+    />
+  )
+}
+ThreeDayView.range = function (date: Date, _opts?: unknown) {
+  const start = startOfDay(date)
+  return [start, addDays(start, 1), addDays(start, 2)]
+}
+ThreeDayView.navigate = function (date: Date, action: string, _props?: unknown) {
+  switch (action) {
+    case 'PREV':
+      return addDays(date, -3)
+    case 'NEXT':
+      return addDays(date, 3)
+    default:
+      return date
+  }
+}
+ThreeDayView.title = function (date: Date, options: any) {
+  const [start, , end] = ThreeDayView.range(date)
+  return options?.localizer?.format({ start, end }, 'dayRangeHeaderFormat') ?? ''
+}
 
 // Localizer setup
 const locales = { 'en-US': enUS }
@@ -38,6 +91,7 @@ interface EventsCalendarProps {
 }
 
 const EventsCalendar: React.FC<EventsCalendarProps> = ({ newEvents, onReloadEvents }) => {
+  const isSmallScreen = useIsSmallScreen()
   const [scheduleType, setScheduleType] = useState<'my' | 'team'>('my')
   const [rawEvents, setRawEvents] = useState<CheckInType[]>([])
   const [currentDate, setCurrentDate] = useState(new Date())
@@ -142,9 +196,9 @@ const EventsCalendar: React.FC<EventsCalendarProps> = ({ newEvents, onReloadEven
 
   const CustomEvent = ({ event }: { event: any }) => {
     return (
-      <div className="h-full p-1">
-        <div className="font-medium text-foreground">{event.title}</div>
-        <div className="text-sm text-foreground/80">
+      <div className="h-full p-1 space-y-[8px]">
+        <div className="font-medium text-foreground text-[16px]">{event.title}</div>
+        <div className="text-[12px] text-foreground/80">
           {format(new Date(event.start), 'h:mm a')} - {format(new Date(event.end), 'h:mm a')}
         </div>
       </div>
@@ -190,7 +244,7 @@ const EventsCalendar: React.FC<EventsCalendarProps> = ({ newEvents, onReloadEven
           localizer={localizer}
           events={events}
           defaultView={Views.WEEK}
-          views={['week']}
+          views={{ week: (isSmallScreen ? ThreeDayView : true) as any }}
           date={currentDate}
           onNavigate={(date) => setCurrentDate(date)}
           startAccessor="start"
