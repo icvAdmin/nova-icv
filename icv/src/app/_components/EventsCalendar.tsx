@@ -152,32 +152,32 @@ const EventsCalendar: React.FC<EventsCalendarProps> = ({ newEvents, onReloadEven
   }
 
   return (
-    <div className="p-6 min-h-screen bg-white relative">
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-4xl font-bold mb-4">
-          Calendar
-        </h1>
-        <div className="relative inline-flex items-end justify-start rounded-[20px] bg-zinc-200 p-1">
+    <div className="m-[48px] space-y-[40px]">
+      <div className="mb-4 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <h1 className="text-6xl font-bold">Calendar</h1>
+
+        {/* Toggle - row below title on screens smaller than lg, same width at all breakpoints */}
+        <div className="relative inline-flex w-fit items-center justify-start self-start rounded-[20px] bg-zinc-200 p-1 lg:self-center">
           <div
               className={`absolute transition-all duration-300 ease-in-out ${scheduleType === 'my' ? 'left-1' : 'left-[calc(100%-50%-4px)]'} h-[calc(100%-8px)] w-[calc(50%-4px)] rounded-[16px] bg-black`}
           />
             <button
                 onClick={() => setScheduleType('my')}
-                className={`relative flex items-center justify-center gap-2.5 rounded-[16px] px-5 py-2 transition-colors duration-300 ${
+                className={`relative flex items-center justify-center gap-2.5 rounded-[16px] px-5 py-2 transition-colors duration-300 w-[170px] ${
                     scheduleType === 'my' ? 'text-white' : 'text-black'
                 }`}
             >
-                <div className="justify-center font-['Epilogue'] text-base font-normal leading-none">
+                <div className="justify-center font-['Epilogue'] text-base font-normal leading-none text-center w-full">
                     My schedule
                 </div>
             </button>
             <button
                 onClick={() => setScheduleType('team')}
-                className={`relative flex items-center justify-center gap-2.5 rounded-[16px] px-5 py-2 transition-colors duration-300 ${
+                className={`relative flex items-center justify-center gap-2.5 rounded-[16px] px-5 py-2 transition-colors duration-300 w-[170px] ${
                     scheduleType === 'team' ? 'text-white' : 'text-black'
                 }`}
             >
-                <div className="justify-center font-['Epilogue'] text-base font-normal leading-none">
+                <div className="justify-center font-['Epilogue'] text-base font-normal leading-none text-center w-full">
                     Team schedule
                 </div>
             </button>

@@ -6,7 +6,7 @@ import SearchComponent from '@/app/_components/SearchComponent'
 export default async function ClientsPage() {
 
     return (
-        <div className="w-full p-6">
+        <div className="w-full">
             
             <SearchComponent />
             

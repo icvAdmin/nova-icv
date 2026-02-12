@@ -25,31 +25,33 @@ export default function Home() {
   const { user } = useUser()
 
   return (
-    <div className="flex h-screen flex-col  justify-between md:flex-row gap-6 p-6 pt-12">
+    <div className="m-[48px] flex h-screen flex-col justify-between gap-[40px] md:flex-row">
       {/* desktop view */}
-      <div className="hidden flex-2/3 w-full flex-col gap-8 md:flex">
+      <div className="hidden flex-2/3 w-full flex-col gap-[40px] md:flex">
         <h1 className="text-6xl font-bold">Hello, {user?.displayName}</h1>
         <EventsSchedule />
       </div>
 
-      {/* tablet */}
-      <div className="flex gap-8 md:hidden">
+      {/* tablet / mobile greeting */}
+      <div className="flex gap-[40px] md:hidden">
         <h1 className="text-6xl font-bold">Hello, {user?.displayName}</h1>
       </div>
       <TimeFrameProvider>
-        <div className="md:hidden w-full">
-          <CheckInCounter />
-        </div>
-        <div className="flex w-full md:hidden">
-          <SpontaneousCheckInModal />
-        </div>
-
-        <div className="flex flex-1 flex-col gap-8 md:hidden">
-          <EventsSchedule />
+        {/* Mobile: stack with 40px gap; desktop: contents so sidebar stays in flow */}
+        <div className="flex flex-col gap-[40px] md:contents">
+          <div className="md:hidden w-full">
+            <CheckInCounter />
+          </div>
+          <div className="flex w-full md:hidden">
+            <SpontaneousCheckInModal />
+          </div>
+          <div className="flex flex-1 flex-col gap-[40px] md:hidden">
+            <EventsSchedule />
+          </div>
         </div>
 
         {/* Sidebar layout for md and up */}
-        <div className="hidden md:flex w-1/3 flex-col gap-6 p-4">
+        <div className="hidden w-1/3 flex-col gap-[40px] md:flex">
           <CheckInCounter />
           <RecentClients />
           <SpontaneousCheckInModal />

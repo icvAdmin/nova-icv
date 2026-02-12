@@ -131,7 +131,7 @@ const CheckInCounter: React.FC = () => {
                 <select
                     value={timeFrame}
                     onChange={(e) => setTimeFrame(e.target.value as 'day' | 'month' | 'year')}
-                    className="w-40 rounded-md border border-gray-300 bg-white px-3 py-2"
+                    className="w-25 rounded-md border border-gray-300 bg-white px-3 py-2"
                 >
                     <option value="day">Day</option>
                     <option value="month">Month</option>

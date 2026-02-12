@@ -296,30 +296,32 @@ const SearchComponent = () => {
     ).sort((a, b) => b - a)
 
     return (
-        <div className="mx-auto w-full max-w-6xl p-4">
-            <div className="mb-4 mt-6 flex items-center justify-between">
-                <h1 className="text-6xl font-bold">My Clients</h1>
-                <div className="relative inline-flex items-center justify-start rounded-[20px] bg-zinc-200 p-1">
+        <div className="m-[48px] space-y-[40px]">
+            <div className="mb-4 mt-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <h1 className="text-6xl font-bold">Clients</h1>
+
+                {/* Toggle - row below title on screens smaller than lg */}
+                <div className="relative inline-flex w-fit items-center justify-start self-start rounded-[20px] bg-zinc-200 p-1 lg:self-center">
                     <div
                         className={`absolute transition-all duration-300 ease-in-out ${activeTab === 'my' ? 'left-1' : 'left-[calc(100%-50%-4px)]'} h-[calc(100%-8px)] w-[calc(50%-4px)] rounded-[16px] bg-black`}
                     />
                     <button
                         onClick={() => handleTabChange('my')}
-                        className={`relative flex items-center justify-center gap-2.5 rounded-[16px] px-5 py-2 transition-colors duration-300 ${
+                        className={`relative flex items-center justify-center gap-2.5 rounded-[16px] px-5 py-2 transition-colors duration-300 w-[140px] ${
                             activeTab === 'my' ? 'text-white' : 'text-black'
                         }`}
                     >
-                        <div className="justify-center font-['Epilogue'] text-base font-normal leading-none">
+                        <div className="justify-center font-['Epilogue'] text-base font-normal leading-none text-center w-full">
                             My clients
                         </div>
                     </button>
                     <button
                         onClick={() => handleTabChange('all')}
-                        className={`relative flex items-center justify-center gap-2.5 rounded-[16px] px-5 py-2 transition-colors duration-300 ${
+                        className={`relative flex items-center justify-center gap-2.5 rounded-[16px] px-5 py-2 transition-colors duration-300 w-[140px] ${
                             activeTab === 'all' ? 'text-white' : 'text-black'
                         }`}
                     >
-                        <div className="justify-center font-['Epilogue'] text-base font-normal leading-none">
+                        <div className="justify-center font-['Epilogue'] text-base font-normal leading-none text-center w-full">
                             All clients
                         </div>
                     </button>

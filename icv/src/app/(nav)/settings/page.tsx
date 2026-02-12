@@ -168,11 +168,9 @@ const SettingsPage = () => {
     }
 
     return (
-        <div className="px-12 py-8">
+        <div className="m-[48px] space-y-[40px]">
             {/* Header */}
-            <h1 className="mb-2 border-b-2 border-dotted pb-2 text-7xl font-bold">
-                Settings
-            </h1>
+            <h1 className="text-6xl font-bold">Settings</h1>
             {showSuccess && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center">
                     <Card className="w-fit rounded px-4 py-2 text-center">

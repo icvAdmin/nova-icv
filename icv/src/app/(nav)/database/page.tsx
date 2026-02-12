@@ -41,11 +41,11 @@ const DatabaseContent = () => {
 
     return (
         <div className="m-[48px] space-y-[40px]">
-            <div className="mb-4 flex flex-row items-center justify-between">
+            <div className="mb-4 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <h1 className="text-6xl font-bold">Database</h1>
 
-                {/* Toggle Switch */}
-                <div className="relative inline-flex items-center justify-start rounded-[20px] bg-zinc-200 p-1">
+                {/* Toggle Switch - moves to row below title on screens smaller than lg */}
+                <div className="relative inline-flex w-fit items-center justify-start self-start rounded-[20px] bg-zinc-200 p-1 lg:self-center">
                     <div
                         className={`absolute transition-all duration-300 ease-in-out ${
                             activeView === 'table'
@@ -57,7 +57,7 @@ const DatabaseContent = () => {
                     />
                     <button
                         onClick={() => setActiveView('table')}
-                        className={`relative flex items-center justify-center gap-2.5 rounded-[16px] px-5 py-2 transition-colors duration-300 w-[120px] ${
+                        className={`relative flex items-center justify-center gap-2.5 rounded-[16px] px-5 py-2 transition-colors duration-300 w-[140px] ${
                             activeView === 'table' ? 'text-white' : 'text-black'
                         }`}
                     >
@@ -67,17 +67,17 @@ const DatabaseContent = () => {
                     </button>
                     <button
                         onClick={() => setActiveView('chart')}
-                        className={`relative flex items-center justify-center gap-2.5 rounded-[16px] px-5 py-2 transition-colors duration-300 w-[120px] ${
+                        className={`relative flex items-center justify-center gap-2.5 rounded-[16px] px-5 py-2 transition-colors duration-300 w-[140px] ${
                             activeView === 'chart' ? 'text-white' : 'text-black'
                         }`}
                     >
-                        <div className="justify-center font-['Epilogue'] text-sm font-normal leading-none text-center w-full">
+                        <div className="justify-center font-['Epilogue'] text-base font-normal leading-none text-center w-full">
                             Check ins
                         </div>
                     </button>
                     <button
                         onClick={() => setActiveView('housing')}
-                        className={`relative flex items-center justify-center gap-2.5 rounded-[16px] px-5 py-2 transition-colors duration-300 w-[120px] ${
+                        className={`relative flex items-center justify-center gap-2.5 rounded-[16px] px-5 py-2 transition-colors duration-300 w-[140px] ${
                             activeView === 'housing' ? 'text-white' : 'text-black'
                         }`}
                     >
