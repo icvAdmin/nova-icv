@@ -223,95 +223,93 @@ export default function CheckInsPage() {
 
     return (
         <div className="p-7">
-            <div className="sticky top-[168px] z-10 flex h-20 w-full items-center justify-between bg-white pb-4">
-                {/* Title */}
-                <h1 className="text-4xl font-bold">Case Notes</h1>
-
-                <div className="flex items-center gap-4">
-                    <ScheduledCheckInCreation
-                        onNewEvent={() => setNewEvents(true)}
-                        clientName={`${client?.firstName} ${client?.lastName}`}
-                    />
-
-                    {/* Filter controls */}
-                    <div className="flex items-center gap-2">
-                        <Select
-                            value={selectedCategory || 'all'}
-                            onValueChange={(value) => {
-                                setSelectedCategory(
-                                    value === 'all' ? null : value,
-                                )
-                                setCurrentPage(1)
-                            }}
-                        >
-                            <SelectTrigger className="h-10 w-[180px] px-4 py-2 text-sm">
-                                <SelectValue placeholder="Filter by category" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">
-                                    All Categories
-                                </SelectItem>
-                                {filterOptions.map((option) => (
-                                    <SelectItem key={option} value={option}>
-                                        {option}
+            <div className="sticky top-[168px] z-10 flex w-full flex-col gap-4 bg-white pb-4 pt-1">
+                {/* Row 1: Title + filter / sort / pagination */}
+                <div className="flex w-full flex-wrap items-center justify-between gap-4">
+                    <h1 className="text-4xl font-bold">Case Notes</h1>
+                    <div className="flex w-full flex-wrap items-center gap-4 lg:w-auto">
+                      
+                        {/* Filter controls */}
+                        <div className="flex items-center gap-2">
+                            <Select
+                                value={selectedCategory || 'all'}
+                                onValueChange={(value) => {
+                                    setSelectedCategory(
+                                        value === 'all' ? null : value,
+                                    )
+                                    setCurrentPage(1)
+                                }}
+                            >
+                                <SelectTrigger className="h-10 w-[180px] px-4 py-2 text-sm">
+                                    <SelectValue placeholder="Filter by category" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">
+                                        All Categories
                                     </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
+                                    {filterOptions.map((option) => (
+                                        <SelectItem key={option} value={option}>
+                                            {option}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
 
-                    {/* Sort controls */}
-                    <div className="flex items-center gap-2">
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() =>
-                                setSortOrder(
-                                    sortOrder === 'newest'
-                                        ? 'oldest'
-                                        : 'newest',
-                                )
-                            }
-                            className="flex h-10 items-center gap-2 px-4 py-2 text-sm"
-                        >
-                            <ArrowUpDown className="h-4 w-4" />
-                            {sortOrder === 'newest' ? 'Oldest' : 'Newest'}
-                        </Button>
-                    </div>
+                        {/* Sort controls */}
+                        <div className="flex items-center gap-2">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() =>
+                                    setSortOrder(
+                                        sortOrder === 'newest'
+                                            ? 'oldest'
+                                            : 'newest',
+                                    )
+                                }
+                                className="flex h-10 items-center gap-2 px-4 py-2 text-sm"
+                            >
+                                <ArrowUpDown className="h-4 w-4" />
+                                {sortOrder === 'newest' ? 'Oldest' : 'Newest'}
+                            </Button>
+                        </div>
 
-                    {/* Pagination controls */}
-                    <div className="flex items-center gap-2">
-                        <button
-                            onClick={handlePrevPage}
-                            disabled={currentPage === 1}
-                            className="text-[16px] disabled:cursor-not-allowed disabled:text-gray-300"
-                        >
-                            <ChevronLeft className="h-5 w-5" />
-                        </button>
-                        <span className="text-sm">
-                            Page {currentPage} of {totalPages}
-                        </span>
-                        <button
-                            onClick={handleNextPage}
-                            disabled={currentPage === totalPages}
-                            className={`flex h-8 w-8 items-center justify-center rounded-md ${
-                                currentPage === totalPages
-                                    ? 'cursor-not-allowed bg-gray-100 text-gray-400'
-                                    : 'bg-blue text-white hover:bg-navy'
-                            }`}
-                        >
-                            <ChevronRight className="h-5 w-5" />
-                        </button>
+                        {/* Pagination controls */}
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={handlePrevPage}
+                                disabled={currentPage === 1}
+                                className="text-[16px] disabled:cursor-not-allowed disabled:text-gray-300"
+                            >
+                                <ChevronLeft className="h-5 w-5" />
+                            </button>
+                            <span className="text-sm">
+                                Page {currentPage} of {totalPages == 0 ? 1 : totalPages}
+                            </span>
+                            <button
+                                onClick={handleNextPage}
+                                disabled={currentPage === totalPages}
+                                className="text-[16px] disabled:cursor-not-allowed disabled:text-gray-300"
+                            >
+                                <ChevronRight className="h-5 w-5" />
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div className="flex w-full flex-row gap-6">
                 {currentPage === 1 && (
-                    <div className="flex w-full items-center justify-between pb-4">
+                    <div className="flex w-full items-center justify-between pb-4 pt-[40px]">
                         <h1 className="text-xl font-medium">
                             Upcoming check ins
                         </h1>
+                        <ScheduledCheckInCreation
+                            onNewEvent={() => setNewEvents(true)}
+                            clientName={`${client?.firstName} ${client?.lastName}`}
+                            buttonClassName="flex flex-row space-x-[8px] rounded-[5px] bg-black px-[12px] py-[8px] text-[14px] text-white"
+                        />
                     </div>
                 )}
             </div>

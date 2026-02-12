@@ -50,22 +50,6 @@ export default function CheckInsPage() {
     const [isOpen, setIsOpen] = useState(false)
     const dropdownRef = useRef<HTMLDivElement>(null)
 
-    // useEffect(() => {
-    //     function handleClickOutside(event: MouseEvent) {
-    //       if (
-    //         dropdownRef.current &&
-    //         !dropdownRef.current.contains(event.target as Node)
-    //       ) {
-    //         setIsOpen(false);
-    //       }
-    //     }
-    //   //need to use click instead of mousedown bc click only fires after mrowser has done mousedown mouseup seq
-    //     document.addEventListener('click', handleClickOutside);
-    //     return () => {
-    //       document.removeEventListener('click', handleClickOutside);
-    //     };
-    //   }, []);
-
     // sorting state
     const [sortOrder, setSortOrder] = useState<SortOrder>('newest')
 
@@ -302,21 +286,17 @@ export default function CheckInsPage() {
                             disabled={currentPage === 1}
                             className="text-[16px] disabled:cursor-not-allowed disabled:text-gray-300"
                         >
-                            <ChevronLeft className="h-5 w-5" />
+                            <ChevronLeft/>
                         </button>
                         <span className="text-sm">
-                            Page {currentPage} of {totalPages}
+                            Page {currentPage} of {totalPages == 0 ? 1 : totalPages}
                         </span>
                         <button
                             onClick={handleNextPage}
                             disabled={currentPage === totalPages}
-                            className={`flex h-8 w-8 items-center justify-center rounded-md ${
-                                currentPage === totalPages
-                                    ? 'cursor-not-allowed bg-gray-100 text-gray-400'
-                                    : 'bg-blue text-white hover:bg-navy'
-                            }`}
+                            className="text-[16px] disabled:cursor-not-allowed disabled:text-gray-300"
                         >
-                            <ChevronRight className="h-5 w-5" />
+                            <ChevronRight/>
                         </button>
                     </div>
                 </div>

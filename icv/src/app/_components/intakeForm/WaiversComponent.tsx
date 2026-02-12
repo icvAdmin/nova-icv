@@ -143,7 +143,7 @@ const WaiverSection: React.FC<Props> = ({
             onSubmit={handleSubmit(handleSubmitType)}
         >
             <div className="mt-[24px] flex min-h-screen items-center justify-center">
-                <div className="min-w-full space-y-[48px] px-[100px]">
+                <div className="min-w-full space-y-[48px]">
                     <div id="formToExport" className="space-y-[60px]">
                         <div className="page-break-after flex flex-col space-y-[24px]">
                             <label className="font-['Epilogue'] text-[24px] font-semibold leading-[28px] text-[#1A1D20]">

@@ -10,8 +10,8 @@ const Page = () => {
     const router = useRouter()
 
     return (
-        <div className="mt-[24px] flex min-h-screen items-center justify-center">
-            <div className="min-w-full px-[100px]">
+        <div className="mt-[24px] flex  items-center justify-center">
+            <div className="min-w-full px-[100px] space-y-[60px]">
                 <div>
                     <label className="block text-center font-['Epilogue'] text-[40px] font-bold leading-[56px] text-neutral-900">
                         Family

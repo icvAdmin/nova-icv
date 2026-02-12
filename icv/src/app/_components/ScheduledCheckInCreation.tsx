@@ -14,11 +14,13 @@ import ClientSearch from './ClientSearch'
 interface ScheduledCheckInCreationProps {
     onNewEvent: () => void
     clientName?: string
+    buttonClassName?: string
 }
 
 const ScheduledCheckInCreation: React.FC<ScheduledCheckInCreationProps> = ({
     onNewEvent,
     clientName = '',
+    buttonClassName,
 }) => {
     const [isOpen, setIsOpen] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
@@ -166,7 +168,7 @@ const ScheduledCheckInCreation: React.FC<ScheduledCheckInCreationProps> = ({
     return (
         <>
             <button
-                className="rounded bg-foreground p-2 text-white"
+                className={buttonClassName ?? 'rounded bg-foreground p-2 text-white'}
                 onClick={() => setIsOpen(true)}
             >
                 Schedule New Event
