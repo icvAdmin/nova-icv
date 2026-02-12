@@ -15,7 +15,7 @@ const IntakeContent = () => {
 
     return (
         <div className="mt-[24px] flex min-h-screen items-center justify-center">
-            <div className="min-w-[800px] space-y-[60px]">
+            <div className="w-full space-y-[60px] px-[100px]">
                 <div>
                     <label className="block text-center font-['Epilogue'] text-[40px] font-bold leading-[56px] text-neutral-900">
                         Client Profile

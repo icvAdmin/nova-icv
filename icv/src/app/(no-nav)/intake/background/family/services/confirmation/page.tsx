@@ -95,7 +95,7 @@ const Page = () => {
     return (
         <form className="space-y-[24px]" style={{ padding: '24px' }}>
             <div className="flex items-center justify-center">
-                <div className="min-w-[800px] space-y-[40px]">
+                <div className="min-w-full space-y-[40px] px-[100px]">
                     <label className="block text-center font-['Epilogue'] text-[40px] font-bold leading-[56px] text-neutral-900">
                         Review
                     </label>
