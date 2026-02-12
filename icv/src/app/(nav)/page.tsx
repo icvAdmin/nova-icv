@@ -25,7 +25,7 @@ export default function Home() {
   const { user } = useUser()
 
   return (
-    <div className="m-[48px] flex h-screen flex-col justify-between gap-[40px] md:flex-row">
+    <div className="m-[48px] flex flex-col justify-between gap-[40px] md:flex-row">
       {/* desktop view */}
       <div className="hidden flex-2/3 w-full flex-col gap-[40px] md:flex">
         <h1 className="text-6xl font-bold">Hello, {user?.displayName}</h1>
