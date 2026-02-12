@@ -1,128 +1,19 @@
 'use client'
 
-import { getAllCheckInCounts, incrementCheckInCount } from '@/api/events'
-import { CheckInCategory } from '@/types/event-types'
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-    SelectViewport,
-} from '@radix-ui/react-select'
-import React, { useEffect, useState } from 'react'
-import Symbol from '../../components/Symbol'
+import React from 'react'
 import { useTimeFrame } from '../_context/TimeFrameContext'
+import { useCheckInCount } from '../_context/CheckInCountContext'
 
 const CheckInCounter: React.FC = () => {
     const { timeFrame, setTimeFrame } = useTimeFrame()
-    const [isLoading, setIsLoading] = useState(true)
-
-    const [hygieneKits, setHygieneKits] = useState<{ [key: string]: number }>({
-        day: 0,
-        month: 0,
-        year: 0,
-    })
-    const [hotMeals, setHotMeals] = useState<{ [key: string]: number }>({
-        day: 0,
-        month: 0,
-        year: 0,
-    })
-    const [snackPacks, setSnackPacks] = useState<{ [key: string]: number }>({
-        day: 0,
-        month: 0,
-        year: 0,
-    })
-
-    const handleIncrement = (
-        item: 'hygieneKits' | 'hotMeals' | 'snackPacks',
-    ) => {
-        const now = new Date()
-        if (item === 'hygieneKits') {
-            setHygieneKits((prev) => ({
-                day: prev.day + 1,
-                month: prev.month + 1,
-                year: prev.year + 1,
-            }))
-            incrementCheckInCount(CheckInCategory.enum['Hygiene Kit'], now)
-        } else if (item === 'hotMeals') {
-            setHotMeals((prev) => ({
-                day: prev.day + 1,
-                month: prev.month + 1,
-                year: prev.year + 1,
-            }))
-            incrementCheckInCount(CheckInCategory.enum['Hot Meal'], now)
-        } else if (item === 'snackPacks') {
-            setSnackPacks((prev) => ({
-                day: prev.day + 1,
-                month: prev.month + 1,
-                year: prev.year + 1,
-            }))
-            incrementCheckInCount(CheckInCategory.enum['Snack Pack'], now)
-        }
-    }
-
-    const handleDecrement = (
-        item: 'hygieneKits' | 'hotMeals' | 'snackPacks',
-    ) => {
-        const now = new Date()
-        if (item === 'hygieneKits') {
-            setHygieneKits((prev) => ({
-                day: prev.day - 1,
-                month: prev.month - 1,
-                year: prev.year - 1,
-            }))
-            incrementCheckInCount(CheckInCategory.enum['Hygiene Kit'], now, -1)
-        } else if (item === 'hotMeals') {
-            setHotMeals((prev) => ({
-                day: prev.day - 1,
-                month: prev.month - 1,
-                year: prev.year - 1,
-            }))
-            incrementCheckInCount(CheckInCategory.enum['Hot Meal'], now, -1)
-        } else if (item === 'snackPacks') {
-            setSnackPacks((prev) => ({
-                day: prev.day - 1,
-                month: prev.month - 1,
-                year: prev.year - 1,
-            }))
-            incrementCheckInCount(CheckInCategory.enum['Snack Pack'], now, -1)
-        }
-    }
-
-    useEffect(() => {
-        const date = new Date()
-
-        async function updateCounts() {
-            try {
-                const data = await getAllCheckInCounts(date)
-
-                setHygieneKits({
-                    day: data.day['Hygiene Kit'] || 0,
-                    month: data.month['Hygiene Kit'] || 0,
-                    year: data.year['Hygiene Kit'] || 0,
-                })
-
-                setHotMeals({
-                    day: data.day['Hot Meal'] || 0,
-                    month: data.month['Hot Meal'] || 0,
-                    year: data.year['Hot Meal'] || 0,
-                })
-
-                setSnackPacks({
-                    day: data.day['Snack Pack'] || 0,
-                    month: data.month['Snack Pack'] || 0,
-                    year: data.year['Snack Pack'] || 0,
-                })
-
-                setIsLoading(false)
-            } catch (error) {
-                console.error('Failed to fetch check-in counts:', error)
-            }
-        }
-
-        updateCounts()
-    }, [])
+    const {
+        hygieneKits,
+        hotMeals,
+        snackPacks,
+        isLoading,
+        increment,
+        decrement,
+    } = useCheckInCount()
 
     return (
         <div>
@@ -145,105 +36,102 @@ const CheckInCounter: React.FC = () => {
                 </div>
             ) : (
                 <>
-                    <h2 className="font-epilogue self-stretch text-center text-[22px] font-medium leading-[24px] text-[#246F95]">
-                        Total
-                    </h2>
-                    <h2 className="font-epilogue self-stretch text-center text-[40px] font-bold not-italic leading-[56px] text-[#246f95]">
-                        {hygieneKits[timeFrame] +
-                            hotMeals[timeFrame] +
-                            snackPacks[timeFrame]}
-                    </h2>
-
-                    <div className="grid grid-cols-3 gap-1 md:grid-cols-1">
-                        {/* Hygiene Kits */}
-                        <div className="mb-4 flex items-center justify-between rounded-lg bg-sky p-4 shadow-md">
-                            <div>
-                                <p className="text-background">Hygiene Kits</p>
-                                <h1 className="text-4xl font-bold text-background">
-                                    {hygieneKits[timeFrame]}
-                                </h1>
-                            </div>
-                            <div className="flex items-center space-x-1">
-                                {hygieneKits[timeFrame] > 0 && (
-                                    <button
-                                        onClick={() =>
-                                            handleDecrement('hygieneKits')
-                                        }
-                                        className="flex h-6 w-6 items-center justify-center rounded-full border-foreground bg-background text-foreground"
-                                    >
-                                        -
-                                    </button>
-                                )}
-                                <button
-                                    onClick={() =>
-                                        handleIncrement('hygieneKits')
-                                    }
-                                    className="flex h-6 w-6 items-center justify-center rounded-full border-foreground bg-background text-foreground"
-                                >
-                                    +
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Hot Meals */}
-                        <div className="mb-4 flex items-center justify-between rounded-lg bg-blue p-4 shadow-md">
-                            <div>
-                                <p className="text-background">Hot Meals</p>
-                                <h1 className="text-4xl font-bold text-background">
-                                    {hotMeals[timeFrame]}
-                                </h1>
-                            </div>
-                            <div className="flex items-center space-x-1">
-                                {hotMeals['day'] > 0 && (
-                                    <button
-                                        onClick={() =>
-                                            handleDecrement('hotMeals')
-                                        }
-                                        className="flex h-6 w-6 items-center justify-center rounded-full border-foreground bg-background text-foreground"
-                                    >
-                                        -
-                                    </button>
-                                )}
-                                <button
-                                    onClick={() => handleIncrement('hotMeals')}
-                                    className="flex h-6 w-6 items-center justify-center rounded-full border-foreground bg-background text-foreground"
-                                >
-                                    +
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Snack Packs */}
-                        <div className="mb-4 flex items-center justify-between rounded-lg bg-navy p-4 shadow-md">
-                            <div>
-                                <p className="text-background">Snack Packs</p>
-                                <h1 className="text-4xl font-bold text-background">
-                                    {snackPacks[timeFrame]}
-                                </h1>
-                            </div>
-                            <div className="flex items-center space-x-1">
-                                {snackPacks['day'] > 0 && (
-                                    <button
-                                        onClick={() =>
-                                            handleDecrement('snackPacks')
-                                        }
-                                        className="flex h-6 w-6 items-center justify-center rounded-full border-foreground bg-background text-foreground"
-                                    >
-                                        -
-                                    </button>
-                                )}
-                                <button
-                                    onClick={() =>
-                                        handleIncrement('snackPacks')
-                                    }
-                                    className="flex h-6 w-6 items-center justify-center rounded-full border-foreground bg-background text-foreground"
-                                >
-                                    +
-                                </button>
-                            </div>
-                        </div>
+                {/* Total */}
+                <h2 className="font-epilogue self-stretch text-center text-[22px] font-medium leading-[24px] text-[#246F95]">
+                  Total
+                </h2>
+                <h2 className="font-epilogue self-stretch text-center text-[40px] font-bold leading-[56px] text-[#246f95]">
+                  {hygieneKits[timeFrame] +
+                    hotMeals[timeFrame] +
+                    snackPacks[timeFrame]}
+                </h2>
+              
+                {/* Cards — ALWAYS stacked */}
+                <div className="flex flex-col gap-3">
+                  {/* Hygiene Kits */}
+                  <div className="flex w-full items-center justify-between rounded-lg bg-sky p-4 shadow-md">
+                    {/* Left: text */}
+                    <div className="text-left">
+                      <p className="text-background">Hygiene Kits</p>
+                      <h1 className="text-4xl font-bold text-background">
+                        {hygieneKits[timeFrame]}
+                      </h1>
                     </div>
-                </>
+              
+                    {/* Right: buttons */}
+                    <div className="flex items-center gap-2">
+                      {hygieneKits[timeFrame] > 0 && (
+                        <button
+                          onClick={() => decrement('hygieneKits')}
+                          className="flex h-10 w-10 items-center justify-center rounded-full bg-background text-foreground text-2xl font-medium"
+                        >
+                          −
+                        </button>
+                      )}
+                      <button
+                        onClick={() => increment('hygieneKits')}
+                        className="flex h-10 w-10 items-center justify-center rounded-full bg-background text-foreground text-2xl font-medium"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+              
+                  {/* Hot Meals */}
+                  <div className="flex w-full items-center justify-between rounded-lg bg-blue p-4 shadow-md">
+                    <div className="text-left">
+                      <p className="text-background">Hot Meals</p>
+                      <h1 className="text-4xl font-bold text-background">
+                        {hotMeals[timeFrame]}
+                      </h1>
+                    </div>
+              
+                    <div className="flex items-center gap-2">
+                      {hotMeals[timeFrame] > 0 && (
+                        <button
+                          onClick={() => decrement('hotMeals')}
+                          className="flex h-10 w-10 items-center justify-center rounded-full bg-background text-foreground text-2xl font-medium"
+                        >
+                          −
+                        </button>
+                      )}
+                      <button
+                        onClick={() => increment('hotMeals')}
+                        className="flex h-10 w-10 items-center justify-center rounded-full bg-background text-foreground text-2xl font-medium"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+              
+                  {/* Snack Packs */}
+                  <div className="flex w-full items-center justify-between rounded-lg bg-navy p-4 shadow-md">
+                    <div className="text-left">
+                      <p className="text-background">Snack Packs</p>
+                      <h1 className="text-4xl font-bold text-background">
+                        {snackPacks[timeFrame]}
+                      </h1>
+                    </div>
+              
+                    <div className="flex items-center gap-2">
+                      {snackPacks[timeFrame] > 0 && (
+                        <button
+                          onClick={() => decrement('snackPacks')}
+                          className="flex h-10 w-10 items-center justify-center rounded-full bg-background text-foreground text-2xl font-medium"
+                        >
+                          −
+                        </button>
+                      )}
+                      <button
+                        onClick={() => increment('snackPacks')}
+                        className="flex h-10 w-10 items-center justify-center rounded-full bg-background text-foreground text-2xl font-medium"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </>
             )}
         </div>
     )

@@ -16,6 +16,7 @@ import CheckInCounter from '../_components/CheckInCounter'
 import SpontaneousCheckInModal from '../_components/SpontaneousCheckinCreation'
 import { useUser } from '@/hooks/useUser'
 import { TimeFrameProvider } from '../_context/TimeFrameContext'
+import { CheckInCountProvider } from '../_context/CheckInCountContext'
 import RecentClients from '../_components/RecentClients'
 
 export const dynamic = 'force-dynamic'
@@ -37,6 +38,7 @@ export default function Home() {
         <h1 className="text-6xl font-bold">Hello, {user?.displayName}</h1>
       </div>
       <TimeFrameProvider>
+        <CheckInCountProvider>
         {/* Mobile: stack with 40px gap; desktop: contents so sidebar stays in flow */}
         <div className="flex flex-col gap-[40px] md:contents">
           <div className="md:hidden w-full">
@@ -56,6 +58,7 @@ export default function Home() {
           <RecentClients />
           <SpontaneousCheckInModal />
         </div>
+        </CheckInCountProvider>
       </TimeFrameProvider>
     </div>
   )
