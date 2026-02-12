@@ -63,14 +63,14 @@ const CheckInCounter: React.FC = () => {
                       {hygieneKits[timeFrame] > 0 && (
                         <button
                           onClick={() => decrement('hygieneKits')}
-                          className="flex h-10 w-10 items-center justify-center rounded-full bg-background text-foreground text-2xl font-medium"
+                          className="flex h-12 w-12 items-center justify-center rounded-[100%] bg-background text-foreground text-4xl font-medium"
                         >
                           −
                         </button>
                       )}
                       <button
                         onClick={() => increment('hygieneKits')}
-                        className="flex h-10 w-10 items-center justify-center rounded-full bg-background text-foreground text-2xl font-medium"
+                        className="flex h-12 w-12 items-center justify-center rounded-[100%] bg-background text-foreground text-4xl font-medium"
                       >
                         +
                       </button>
@@ -90,14 +90,14 @@ const CheckInCounter: React.FC = () => {
                       {hotMeals[timeFrame] > 0 && (
                         <button
                           onClick={() => decrement('hotMeals')}
-                          className="flex h-10 w-10 items-center justify-center rounded-full bg-background text-foreground text-2xl font-medium"
+                          className="flex h-12 w-12 items-center justify-center rounded-[100%] bg-background text-foreground text-4xl font-medium"
                         >
                           −
                         </button>
                       )}
                       <button
                         onClick={() => increment('hotMeals')}
-                        className="flex h-10 w-10 items-center justify-center rounded-full bg-background text-foreground text-2xl font-medium"
+                        className="flex h-12 w-12 items-center justify-center rounded-[100%] bg-background text-foreground text-4xl font-medium"
                       >
                         +
                       </button>
@@ -117,14 +117,14 @@ const CheckInCounter: React.FC = () => {
                       {snackPacks[timeFrame] > 0 && (
                         <button
                           onClick={() => decrement('snackPacks')}
-                          className="flex h-10 w-10 items-center justify-center rounded-full bg-background text-foreground text-2xl font-medium"
+                          className="flex h-12 w-12 items-center justify-center rounded-[100%] bg-background text-foreground text-4xl font-medium"
                         >
                           −
                         </button>
                       )}
                       <button
                         onClick={() => increment('snackPacks')}
-                        className="flex h-10 w-10 items-center justify-center rounded-full bg-background text-foreground text-2xl font-medium"
+                        className="flex h-12 w-12 items-center justify-center rounded-[100%] bg-background text-foreground text-4xl font-medium"
                       >
                         +
                       </button>
