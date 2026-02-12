@@ -422,7 +422,7 @@ export const FamilySection: React.FC<Props> = ({
             className="space-y-[24px]"
             onSubmit={handleSubmit(handleSubmitType)}
         >
-            <div className="flex min-h-screen items-center justify-center">
+            <div className="flex items-center justify-center">
                 <div className="w-full space-y-[30px]">
                     {/* Spouse Section */}
                     <div className="flex flex-col space-y-[24px]">
