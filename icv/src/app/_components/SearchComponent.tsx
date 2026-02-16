@@ -10,6 +10,7 @@ import { useUser } from '@/hooks/useUser'
 import { NewClient } from '@/types/client-types'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 const ITEMS_PER_PAGE = 12
 
@@ -418,93 +419,96 @@ const SearchComponent = () => {
                 </div>
             </div>
 
-            {/* Side popup menu */}
-            {isFilterVisible && (
-                <>
-                    {/* Backdrop */}
-                    <div
-                        className="fixed inset-0 z-40 bg-black bg-opacity-50"
-                        onClick={() => setIsFilterVisible(false)}
-                    />
-                    {/* Side menu */}
-                    <div className="fixed right-0 top-0 z-50 h-full w-[400px] bg-white p-6 shadow-xl">
-                        <div className="mb-6 flex items-center justify-between">
-                            <h2 className="text-xl font-semibold">Filter</h2>
-                            <button
-                                onClick={() => setIsFilterVisible(false)}
-                                className="text-gray-500 hover:text-gray-700"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={1.5}
-                                    stroke="currentColor"
-                                    className="h-6 w-6"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                        <YearFilter
-                            calendarYears={years}
-                            fiscalYears={years}
-                            isFilterVisible={isFilterVisible}
-                            setIsFilterVisible={setIsFilterVisible}
-                            dateFilterType={filters.dateFilterType}
-                            setDateFilterType={(type) =>
-                                setFilters((prev) => ({
-                                    ...prev,
-                                    dateFilterType: type,
-                                    selectedMonths:
-                                        type === 'calendar'
-                                            ? [
-                                                  '1',
-                                                  '2',
-                                                  '3',
-                                                  '4',
-                                                  '5',
-                                                  '6',
-                                                  '7',
-                                                  '8',
-                                                  '9',
-                                                  '10',
-                                                  '11',
-                                                  '12',
-                                              ]
-                                            : [],
-                                    selectedQuarters:
-                                        type === 'fiscal'
-                                            ? [
-                                                  'Q1: JUL-SEP',
-                                                  'Q2: OCT-DEC',
-                                                  'Q3: JAN-MAR',
-                                                  'Q4: APR-JUN',
-                                              ]
-                                            : [],
-                                }))
-                            }
-                            selectedYear={filters.selectedYear}
-                            setSelectedYear={(year) =>
-                                setFilters((prev) => ({
-                                    ...prev,
-                                    selectedYear: year,
-                                }))
-                            }
-                            selectedMonths={filters.selectedMonths}
-                            handleMonthToggle={handleMonthToggle}
-                            selectedQuarters={filters.selectedQuarters}
-                            handleQuarterToggle={handleQuarterToggle}
-                            layout="vertical"
-                            showToggle={false}
+            {/* Side popup for intake date filters */}
+            {isFilterVisible &&
+                typeof document !== 'undefined' &&
+                createPortal(
+                    <>
+                        {/* Backdrop */}
+                        <div
+                            className="fixed inset-0 z-40 bg-black bg-opacity-50"
+                            onClick={() => setIsFilterVisible(false)}
                         />
-                    </div>
-                </>
-            )}
+                        {/* Side menu */}
+                        <div className="fixed right-0 top-0 z-50 h-full w-[400px] bg-white px-6 pb-6 pt-4 shadow-xl">
+                            <div className="mb-6 flex items-center justify-between">
+                                <h2 className="text-xl font-semibold">Filter</h2>
+                                <button
+                                    onClick={() => setIsFilterVisible(false)}
+                                    className="text-gray-500 hover:text-gray-700"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor"
+                                        className="h-6 w-6"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M6 18L18 6M6 6l12 12"
+                                        />
+                                    </svg>
+                                </button>
+                            </div>
+                            <YearFilter
+                                calendarYears={years}
+                                fiscalYears={years}
+                                isFilterVisible={isFilterVisible}
+                                setIsFilterVisible={setIsFilterVisible}
+                                dateFilterType={filters.dateFilterType}
+                                setDateFilterType={(type) =>
+                                    setFilters((prev) => ({
+                                        ...prev,
+                                        dateFilterType: type,
+                                        selectedMonths:
+                                            type === 'calendar'
+                                                ? [
+                                                      '1',
+                                                      '2',
+                                                      '3',
+                                                      '4',
+                                                      '5',
+                                                      '6',
+                                                      '7',
+                                                      '8',
+                                                      '9',
+                                                      '10',
+                                                      '11',
+                                                      '12',
+                                                  ]
+                                                : [],
+                                        selectedQuarters:
+                                            type === 'fiscal'
+                                                ? [
+                                                      'Q1: JUL-SEP',
+                                                      'Q2: OCT-DEC',
+                                                      'Q3: JAN-MAR',
+                                                      'Q4: APR-JUN',
+                                                  ]
+                                                : [],
+                                    }))
+                                }
+                                selectedYear={filters.selectedYear}
+                                setSelectedYear={(year) =>
+                                    setFilters((prev) => ({
+                                        ...prev,
+                                        selectedYear: year,
+                                    }))
+                                }
+                                selectedMonths={filters.selectedMonths}
+                                handleMonthToggle={handleMonthToggle}
+                                selectedQuarters={filters.selectedQuarters}
+                                handleQuarterToggle={handleQuarterToggle}
+                                layout="vertical"
+                                showToggle={false}
+                            />
+                        </div>
+                    </>,
+                    document.body,
+                )}
 
             <div className="grid gap-4">
                 <div className="mb-4">

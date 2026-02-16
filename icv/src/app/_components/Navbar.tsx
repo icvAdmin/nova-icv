@@ -14,6 +14,16 @@ const Navbar = () => {
     const [open, setOpen] = useState(false)
     const menuRef = useRef<HTMLDivElement>(null)
 
+    // Collapse navbar when viewport shrinks below desktop 
+    useEffect(() => {
+        const mediaQuery = window.matchMedia('(min-width: 1024px)')
+        const handleResize = () => {
+            if (!mediaQuery.matches) setOpen(false)
+        }
+        mediaQuery.addEventListener('change', handleResize)
+        return () => mediaQuery.removeEventListener('change', handleResize)
+    }, [])
+
     // Close when clicking outside
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -40,7 +50,7 @@ const Navbar = () => {
             {!open && (
                 <div
                     ref={menuRef}
-                    className="fixed left-0 top-0 flex h-full w-20 flex-col items-center gap-4 bg-foreground text-background md:hidden"
+                    className="fixed left-0 top-0 flex h-full w-20 flex-col items-center gap-4 bg-foreground text-background lg:hidden"
                 >
                     <div
                         onClick={() => setOpen(true)}
@@ -81,7 +91,7 @@ const Navbar = () => {
             {open && (
                 <div
                     ref={menuRef}
-                    className="fixed left-0 top-0 z-50 flex h-full w-64 flex-col items-center gap-4 bg-foreground text-background md:hidden"
+                    className="fixed left-0 top-0 z-50 flex h-full w-64 flex-col items-center gap-4 bg-foreground text-background lg:hidden"
                 >
                     <div className="flex w-full flex-col items-center justify-center gap-2 py-8">
                         <img
@@ -125,7 +135,7 @@ const Navbar = () => {
                 </div>
             )}
             {/* desktop view*/}
-            <div className="fixed left-0 top-0 hidden h-full w-64 flex-col items-center gap-4 bg-foreground text-background md:flex">
+            <div className="fixed left-0 top-0 hidden h-full w-64 flex-col items-center gap-4 bg-foreground text-background lg:flex">
                 <div className="flex w-full flex-col items-center justify-center gap-2 py-8">
                     <img
                         src={user?.photoURL || '/icv.png'}
